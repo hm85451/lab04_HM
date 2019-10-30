@@ -17,34 +17,70 @@ size_t WordCount::hash(std::string word) const {
 }
 
 int WordCount::getTotalWords() const {
-	// STUB.
-	return -1;
+    int count = 0;
+    for (size_t i = 0;i< CAPACITY; i++)
+    {
+        if (table[i].size()!=0)
+        {
+            for (vector::iterator j = table[i].begin(); j < table[i].end(); j++)
+            {
+                count += table[i]->second;
+            }
+        }
+    }
+	return count;
 }
 
 int WordCount::getNumUniqueWords() const {
-	// STUB
-	return -1;
+	int count = 0;
+    for (size_t i = 0; i < CAPACITY; i++)
+    {
+        count+= table[i].size();
+    }
+	return count;
 }
 
 int WordCount::getWordCount(std::string word) const {
-	// STUB
-	return -1;
+    word = stripWord(word);
+    transform(word.begin(),word.end(),word.begin(),::toupper);
+	size_t hashIndex = hash(word);
+    for (vector::iterator i = table[hashIndex].begin(); i < table[hashIndex].end(); i++)
+    {
+        if (i->first==word)
+            return i->second;
+    }
+    
+	return 0;
 }
 	
 
 int WordCount::incrWordCount(std::string word) {
-	// STUB
-	return -1;
+	word = stripWord(word);
+    transform(word.begin(),word.end(),word.begin(),::toupper);
+    size_t hashIndex = hash(word);
+    for (vector::iterator i = table[hashIndex].begin(); i < table[hashIndex].end(); i++)
+    {
+        if (i->first == word)
+            return ++i->second;
+    }
+    table[hashIndex].push_back(pair<string,size_t>(word,1));
+    return 1;
 }
 
 
 bool WordCount::isWordChar(char c) {
-	// STUB
-	return false;
+	if ((c>=97&&c<=122||(c>=65&&c<=58)))
+	    return true;
+    return false;
 }
 
 
 std::string WordCount::stripWord(std::string word) {
-	// STUB
-	return "";
+	string word2 = "";
+    for (int i = 0; i < word.size();i++)
+    {
+        if (isWordChar(word[i])||word[i]=='-'||word[i]==''')
+            word2+=word[i];
+    }
+	return word2;
 }
