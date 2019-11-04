@@ -1,6 +1,7 @@
 // WordCount.cpp
-
+#include<algorithm>
 #include "WordCount.h"
+#include<vector>
 
 using namespace std;
 
@@ -22,9 +23,9 @@ int WordCount::getTotalWords() const {
     {
         if (table[i].size()!=0)
         {
-            for (vector::iterator j = table[i].begin(); j < table[i].end(); j++)
+            for(size_t j = 0; j < table[i].size(); j++)
             {
-                count += table[i]->second;
+                count += (int)table[i][j].second;
             }
         }
     }
@@ -44,10 +45,10 @@ int WordCount::getWordCount(std::string word) const {
     word = stripWord(word);
     transform(word.begin(),word.end(),word.begin(),::toupper);
 	size_t hashIndex = hash(word);
-    for (vector::iterator i = table[hashIndex].begin(); i < table[hashIndex].end(); i++)
+    for (size_t i = 0; i < table[hashIndex].size(); i++)
     {
-        if (i->first==word)
-            return i->second;
+        if (table[hashIndex][i].first==word)
+            return  table[hashIndex][i].second;
     }
     
 	return 0;
@@ -58,10 +59,10 @@ int WordCount::incrWordCount(std::string word) {
 	word = stripWord(word);
     transform(word.begin(),word.end(),word.begin(),::toupper);
     size_t hashIndex = hash(word);
-    for (vector::iterator i = table[hashIndex].begin(); i < table[hashIndex].end(); i++)
+    for (size_t i = 0;i < table[hashIndex].size(); i++)
     {
-        if (i->first == word)
-            return ++i->second;
+        if (table[hashIndex][i].first == word)
+            return ++table[hashIndex][i].second;
     }
     table[hashIndex].push_back(pair<string,size_t>(word,1));
     return 1;
@@ -69,7 +70,7 @@ int WordCount::incrWordCount(std::string word) {
 
 
 bool WordCount::isWordChar(char c) {
-	if ((c>=97&&c<=122||(c>=65&&c<=58)))
+	if ((c>=97&&c<=122)||(c>=65&&c<=90))
 	    return true;
     return false;
 }
@@ -79,7 +80,7 @@ std::string WordCount::stripWord(std::string word) {
 	string word2 = "";
     for (int i = 0; i < word.size();i++)
     {
-        if (isWordChar(word[i])||word[i]=='-'||word[i]==''')
+        if (isWordChar(word[i])||word[i]=='-'||word[i]=='\'')
             word2+=word[i];
     }
 	return word2;
