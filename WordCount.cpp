@@ -57,6 +57,8 @@ int WordCount::getWordCount(std::string word) const {
 
 int WordCount::incrWordCount(std::string word) {
 	word = stripWord(word);
+    if (word.length()==0)
+        return 0;
     transform(word.begin(),word.end(),word.begin(),::toupper);
     size_t hashIndex = hash(word);
     for (size_t i = 0;i < table[hashIndex].size(); i++)
@@ -86,9 +88,7 @@ std::string WordCount::stripWord(std::string word) {
             if (word2.length()!=0)
                 word2+=word[i];
     }
-    if (word2.length()==0)
-        return word2;
-    while((!isWordChar(word2[word2.length()-1])) && word2.length()>0)
+    while(word2.length()>0 && (!isWordChar(word2[word2.length()-1])))
     {
         word2 = word2.substr(0,word2.length()-1);
     }
