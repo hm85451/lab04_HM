@@ -78,10 +78,19 @@ bool WordCount::isWordChar(char c) {
 
 std::string WordCount::stripWord(std::string word) {
 	string word2 = "";
-    for (int i = 0; i < word.size();i++)
+    for (int i = 0; i < word.length();i++)
     {
-        if (isWordChar(word[i])||word[i]=='-'||word[i]=='\'')
+        if (isWordChar(word[i]))
             word2+=word[i];
+        if (word[i]=='-'||word[i]=='\'')
+            if (word2.length()!=0)
+                word2+=word[i];
+    }
+    if (word2.length()==0)
+        return word2;
+    while((!isWordChar(word2[word2.length()-1])) && word2.length()>0)
+    {
+        word2 = word2.substr(0,word2.length()-1);
     }
 	return word2;
 }

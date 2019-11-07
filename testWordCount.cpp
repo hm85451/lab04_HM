@@ -41,6 +41,8 @@ int main()
 
     cout<<"testing stripWord function"<<endl;
     ASSERT_EQUALS("Jacky", WordCount::stripWord("Jacky"));
+    ASSERT_EQUALS("Jacky", WordCount::stripWord("'Jacky--"));
+    ASSERT_EQUALS("", WordCount::stripWord("---"));
     ASSERT_EQUALS("watermelon", WordCount::stripWord("!watermel@#on"));
     ASSERT_EQUALS("good-heartedcan't", WordCount::stripWord("good-heartedcan't"));
     return 0;
